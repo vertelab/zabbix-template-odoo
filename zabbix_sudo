@@ -1,0 +1,6 @@
+# Special rights for the Zabbix user
+# Warning! Test build and install on test machine before pushing. Edit with
+# visudo to decrease the risk of messing up the sudo-system.
+# Reminder: It is annoying to boot into recovery mode or with a recovery disk.
+
+ZBXUSR ALL =(ODOOUSER) NOPASSWD: BINNAMEFULL
