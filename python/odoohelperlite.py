@@ -172,7 +172,7 @@ def main(ctx, **kwargs):
 @click.option('-d','--database',help="Perform operations on the given database.")
 @click.option('--db-size',help="Size of db in bytes.",is_flag=True)
 @click.option('--fs-size',help="Size of filestore in bytes.",is_flag=True)
-@click.option('--size',help="Size of db and filestore in bytes.")
+@click.option('--size',help="Size of db and filestore in bytes.",is_flag=True)
 @click.option('--get-param',help="Get database parameter.",is_flag=True) # TODO: Test and tidy up.
 @click.option('--url',help="Get database web.base.url.",is_flag=True) # Todo refactor this option to some get_param option?
 @click.option('--url-freeze',help="Get web.base.url.freeze parameter.")
@@ -197,6 +197,7 @@ def database(cobj,**kwargs):
             print(dbs_size+fss_size)
     else:
         db = kwargs["database"]
+        fs = cobj["filestore"]
         if kwargs["fs_size"]:
             print(odoo_get_db_filestore_size(db,basedir=fs))
         if kwargs["db_size"]:
