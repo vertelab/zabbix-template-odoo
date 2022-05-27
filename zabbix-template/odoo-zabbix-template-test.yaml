@@ -1,0 +1,147 @@
+zabbix_export:
+  version: '6.0'
+  date: '2022-05-27T07:53:32Z'
+  groups:
+    -
+      uuid: a571c0d144b14fd4a87a9d9b2aa9fcd6
+      name: Templates/Applications
+  templates:
+    -
+      uuid: 30a3bd6c1971479f91037edce4cd6721
+      template: 'Odoo Zabbix Plugin'
+      name: 'Odoo Zabbix Plugin'
+      description: 'Odoo Zabbix Plugin by Vertel AB'
+      groups:
+        -
+          name: Templates/Applications
+      items:
+        -
+          uuid: d3c5c043c0e44f77b965d6d5b066f0cb
+          name: 'Odoo Count Databases'
+          key: odoo.db.alldbcount
+          delay: 1m
+          units: B
+          description: 'Count Odoo databases.'
+        -
+          uuid: d2a8d59dc61c42588f275401170a0e0f
+          name: 'Odoo All Databases Size'
+          key: odoo.db.alldbsize
+          delay: 30s
+          units: B
+          description: 'The size of Odoo Databases in Bytes.'
+        -
+          uuid: 7f9511fcbad8478398dd9ac550110e32
+          name: 'Odoo All Filestores Size'
+          key: odoo.db.allfssize
+          delay: 30s
+          units: B
+          description: 'The total size of the Odoo filestores in bytes.'
+        -
+          uuid: 2c26ffd3f6684523ad9642fbf4873a4d
+          name: 'Odoo All Total Size'
+          key: odoo.db.alltotsize
+          delay: 30s
+          units: B
+          description: 'The total size of the Odoo databases and filestores in bytes.'
+      discovery_rules:
+        -
+          uuid: 3f6465bea07941e7b167b21b77fd3190
+          name: 'Discover Odoo Databases'
+          key: odoo.db.discovery
+          delay: 1m
+          description: |
+            Discover Odoo databases on the agent.
+
+            Requires the agent side plugin to be installed.
+          item_prototypes:
+            -
+              uuid: 7490742c46b748bf9a76700a13d1b45a
+              name: 'Odoo: {#ODOODBNAME} Database Size'
+              key: 'odoo.db.dbsize[{#ODOODBNAME}]'
+              delay: 30s
+              units: B
+              description: |
+                Odoo database size in Bytes.
+
+                Requires the odoo-zabbix scripts to be installed on the host.
+            -
+              uuid: 11b307288b324566b842e0275890823a
+              name: 'Odoo: {#ODOODBNAME} web.base.url'
+              key: 'odoo.db.domain[{#ODOODBNAME}]'
+              delay: 1m
+              trends: '0'
+              value_type: TEXT
+              description: |
+                Odoo Filestore size in Bytes.
+
+                Requires the odoo-zabbix scripts to be installed on the host.
+              trigger_prototypes:
+                -
+                  uuid: afd08aa9efb7496293e65c8b9a3d3774
+                  expression: 'last(/Odoo Zabbix Plugin/odoo.db.domain[{#ODOODBNAME}],#1) <> last(/Odoo Zabbix Plugin/odoo.db.domain[{#ODOODBNAME}],#2)'
+                  name: 'Odoo: {#ODOODBNAME} - web.base.url change'
+                  priority: WARNING
+            -
+              uuid: 1487517ff3e049b2ab7058c738c07bf5
+              name: 'Odoo: {#ODOODBNAME} Filestore Size'
+              key: 'odoo.db.fssize[{#ODOODBNAME}]'
+              delay: 30s
+              units: B
+              description: |
+                Odoo Filestore size in Bytes.
+
+                Requires the odoo-zabbix scripts to be installed on the host.
+            -
+              uuid: 8f847427467346a78c334e357e57a307
+              name: 'Odoo: {#ODOODBNAME} Total Size'
+              key: 'odoo.db.totsize[{#ODOODBNAME}]'
+              delay: 30s
+              units: B
+              description: |
+                Odoo Database and Filestore Size in Bytes.
+
+                Requires the odoo-zabbix scripts to be installed on the host.
+          graph_prototypes:
+            -
+              uuid: 0f30618b55e54400a4fb00ee03af767b
+              name: 'Disk usage - {#ODOODBNAME}'
+              graph_items:
+                -
+                  color: BF00FF
+                  item:
+                    host: 'Odoo Zabbix Plugin'
+                    key: 'odoo.db.totsize[{#ODOODBNAME}]'
+                -
+                  sortorder: '1'
+                  color: 0080FF
+                  item:
+                    host: 'Odoo Zabbix Plugin'
+                    key: 'odoo.db.dbsize[{#ODOODBNAME}]'
+                -
+                  sortorder: '2'
+                  color: 00FF00
+                  item:
+                    host: 'Odoo Zabbix Plugin'
+                    key: 'odoo.db.fssize[{#ODOODBNAME}]'
+  graphs:
+    -
+      uuid: e0b24f60ebc14d99b28d154309600a3e
+      name: 'Odoo Disk usage - Total'
+      graph_items:
+        -
+          color: 0080FF
+          item:
+            host: 'Odoo Zabbix Plugin'
+            key: odoo.db.alldbsize
+        -
+          sortorder: '1'
+          color: 00FF00
+          item:
+            host: 'Odoo Zabbix Plugin'
+            key: odoo.db.allfssize
+        -
+          sortorder: '2'
+          color: BF00FF
+          item:
+            host: 'Odoo Zabbix Plugin'
+            key: odoo.db.alltotsize
