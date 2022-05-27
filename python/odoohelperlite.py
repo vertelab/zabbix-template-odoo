@@ -109,7 +109,7 @@ def odoo_get_db_filestore_sizes(basedir=ODOO_FILESTORE):
             ret[os.path.basename(f_raw)] = s
     return ret
 
-def odoo_get_db_filestore_size(database):
+def odoo_get_db_filestore_size(database, basedir=ODOO_FILESTORE):
     '''
     Get a database's filestore size.
     '''
