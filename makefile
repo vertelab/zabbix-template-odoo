@@ -1,5 +1,7 @@
 #/usr/bin/make
 
+# TODO: Fix target all !
+
 # https://www.gnu.org/prep/standards/standards.html
 prefix = /usr/local
 exec_prefix = $(prefix)
