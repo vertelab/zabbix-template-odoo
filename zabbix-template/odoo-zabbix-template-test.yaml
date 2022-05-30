@@ -20,7 +20,6 @@ zabbix_export:
           name: 'Odoo Count Databases'
           key: odoo.db.alldbcount
           delay: 1m
-          units: B
           description: 'Count Odoo databases.'
         -
           uuid: d2a8d59dc61c42588f275401170a0e0f
