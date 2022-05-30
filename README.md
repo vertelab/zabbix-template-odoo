@@ -10,6 +10,7 @@ TODO: Fill out this segment.
 
   * Ubuntu 20.04 or later (likely works on older too)
   * `zabbix-agent` installed.
+  * Python 3.7 or later (can run on at least 3.6 with minor modifications)
 
 ## Installation
 
