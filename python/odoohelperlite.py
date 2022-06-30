@@ -175,7 +175,7 @@ def main(ctx, **kwargs):
 @click.option('--size',help="Size of db and filestore in bytes.",is_flag=True)
 @click.option('--get-param',help="Get database parameter.",is_flag=True) # TODO: Test and tidy up.
 @click.option('--url',help="Get database web.base.url.",is_flag=True) # Todo refactor this option to some get_param option?
-@click.option('--url-freeze',help="Get web.base.url.freeze parameter.")
+@click.option('--url-freeze',help="Get web.base.url.freeze parameter.",is_flag=True)
 @click.pass_obj # Enough to get ctx.obj
 def database(cobj,**kwargs):
     #click.echo(kwargs)
@@ -208,6 +208,8 @@ def database(cobj,**kwargs):
             print(db_size+fs_size)
         if kwargs["url"]:
             print(odoo_get_base_url(db))
+        if kwargs["url_freeze"]:
+            odoo_get_base_url_freeze(db)
 
 @main.command(help="Run Zabbix Discovery")
 def discovery():

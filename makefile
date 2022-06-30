@@ -1,6 +1,6 @@
 #/usr/bin/make
 
-# TODO: Fix target all !
+# TODO: Apologize for crude makefile
 
 # https://www.gnu.org/prep/standards/standards.html
 prefix = /usr/local
