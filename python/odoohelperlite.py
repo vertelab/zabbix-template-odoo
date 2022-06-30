@@ -184,36 +184,36 @@ def database(cobj,**kwargs):
         fs = cobj["filestore"]
         if kwargs["list"]:
             for l in odoo_db_list():
-                print(l)
+                click.echo(l)
         if kwargs["count"]:
-            print(len(odoo_db_list()))
+            click.echo(len(odoo_db_list()))
         if kwargs["fs_size"]:
-            print(odoo_get_db_filestore_size_total(basedir=fs))
+            click.echo(odoo_get_db_filestore_size_total(basedir=fs))
         if kwargs["db_size"]:
-            print(odoo_get_db_sizes_total())
+            click.echo(odoo_get_db_sizes_total())
         if kwargs["size"]:
             dbs_size = odoo_get_db_sizes_total()
             fss_size = odoo_get_db_filestore_size_total(basedir=fs)
-            print(dbs_size+fss_size)
+            click.echo(dbs_size+fss_size)
     else:
         db = kwargs["database"]
         fs = cobj["filestore"]
         if kwargs["fs_size"]:
-            print(odoo_get_db_filestore_size(db,basedir=fs))
+            click.echo(odoo_get_db_filestore_size(db,basedir=fs))
         if kwargs["db_size"]:
-            print(odoo_get_db_size(db))
+            click.echo(odoo_get_db_size(db))
         if kwargs["size"]:
             db_size = odoo_get_db_size(db)
             fs_size = odoo_get_db_filestore_size(db,basedir=fs)
-            print(db_size+fs_size)
+            click.echo(db_size+fs_size)
         if kwargs["url"]:
-            print(odoo_get_base_url(db))
+            click.echo(odoo_get_base_url(db))
         if kwargs["url_freeze"]:
             odoo_get_base_url_freeze(db)
 
 @main.command(help="Run Zabbix Discovery")
 def discovery():
-    print(dblist2zabbixjson(odoo_db_list()))
+    click.echo(dblist2zabbixjson(odoo_db_list()))
 #%%
 if __name__ == '__main__':
     main(obj={})
