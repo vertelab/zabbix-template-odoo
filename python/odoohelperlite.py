@@ -109,7 +109,19 @@ def odoo_get_base_url_freeze(database):
 
 SQL_DB_SIZE_BYTES_FORMAT = "SELECT pg_database_size('{}')"
 def odoo_get_db_size(database):
-    '''Get database size in bytes.'''
+    '''
+    Get database size in bytes.
+
+    Dev-note:   Return 0 instead of raising an error if not database doesn't
+                exist and let Zabbix silently undiscover the DB.
+
+    Returns
+    =======
+    int :
+        Size of database in bytes or 0 if not exists.
+    '''
+    if database not in odoo_db_list():
+        return 0
     conn = psycopg2.connect(database=database)
     with conn.cursor() as c:
         c.execute(SQL_DB_SIZE_BYTES_FORMAT.format(database))
@@ -151,8 +163,20 @@ def odoo_get_db_filestore_sizes(basedir=ODOO_FILESTORE):
 def odoo_get_db_filestore_size(database, basedir=ODOO_FILESTORE):
     '''
     Get a database's filestore size.
+
+    Dev-note:   Return 0 instead of raising an error if not filestore doesn't
+                exist and let Zabbix silently undiscover the DB.
+
+    Returns
+    =======
+    int :
+        Size of filestore in bytes or 0 if not exists.
     '''
-    return odoo_get_db_filestore_sizes(basedir=basedir)[database]
+    allfssize = odoo_get_db_filestore_sizes(basedir=basedir)
+    if database not in allfssize:
+        return 0
+    # Else
+    return allfssize[database]
 def odoo_get_db_filestore_size_total(basedir=ODOO_FILESTORE):
     '''
     Get a database's filestore size.
